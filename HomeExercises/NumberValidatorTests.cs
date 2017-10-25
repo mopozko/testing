@@ -7,24 +7,31 @@ namespace HomeExercises
 {
     public class NumberValidatorTests
     {
+        //Expected = false
         [TestCase(3, 2, true, " ", ExpectedResult = false, TestName = "FalseWhenWhitespace")]
         [TestCase(3, 2, true, null, ExpectedResult = false, TestName = "FalseWhenNull")]
         [TestCase(3, 2, true, "a.sd", ExpectedResult = false, TestName = "FalseWhenNan")]
-        [TestCase(3, 2, true, "-1,23", ExpectedResult = false, TestName = "NegativeWhenOnlyPositivIsTrue")]
-        [TestCase(5, 2, false, "-1,23", ExpectedResult = true, TestName = "NegativeWhenOnlyPositivIsFalse")]
-        [TestCase(3, 2, false, "11.23", ExpectedResult = false, TestName = "FalseWhenValueMorePrecision")]
-        [TestCase(4, 2, false, "0.123", ExpectedResult = false, TestName = "FalseWhenFracPartMoreScale")]
+        [TestCase(4, 2, true, "-1,23", ExpectedResult = false, TestName = "NegativeWhenOnlyPositiveIsTrue")]
+        [TestCase(3, 2, false, "11.23", ExpectedResult = false, TestName = "FalseWhenValueGreaterThanPrecision")]
+        [TestCase(4, 2, false, "0.123", ExpectedResult = false, TestName = "FalseWhenFracPartGreaterThanScale")]
+        [TestCase(4, 0, false, "0.000", ExpectedResult = false, TestName = "FalseWhenScaleIs0AndFracPartGreaterThanScale")]
+
+        //Expected = true
+        [TestCase(4, 0, false, "0000", ExpectedResult = true, TestName = "TrueWhenScaleIs0AndFractPartIs0")]
+        [TestCase(5, 2, false, "-1,23", ExpectedResult = true, TestName = "NegativeWhenOnlyPositiveIsFalse")]
+        [TestCase(4, 2, true, "+1,23", ExpectedResult = true, TestName = "PositiveWhenOnlyPositiveIsTrue")]
+        [TestCase(4, 2, false, "+1,23", ExpectedResult = true, TestName = "PositiveWhenOnlyPositiveIsfalse")]
         [TestCase(5, 2, false, "123,11", ExpectedResult = true, TestName = "CorrectSeparation1")]
         [TestCase(5, 2, false, "123.11", ExpectedResult = true, TestName = "CorrectSeparation2")]
-        public static bool ValidateNumber(int precision, int scale, bool onlyPositiv, string value)
+        public static bool ValidateNumber(int precision, int scale, bool onlyPositive, string value)
         {
-            return new NumberValidator(precision, scale, onlyPositiv).IsValidNumber(value);
+            return new NumberValidator(precision, scale, onlyPositive).IsValidNumber(value);
         }
 
         [TestCase(-1, 0, false, null, TestName = "ArgumentExceptionWhenPrecisionIsNegative")]
         [TestCase(0, 0, false, null, TestName = "ArgumentExceptionWhenPrecisionIsZero")]
         [TestCase(1, -1, false, null, TestName = "ArgumentExceptionWhenScaleIsNegative")]
-        [TestCase(1, 2, false, null, TestName = "ArgumentExceptionWhenScaleGreaterThenPrecision")]
+        [TestCase(1, 2, false, null, TestName = "ArgumentExceptionWhenScaleGreaterThanPrecision")]
         public void CheckThrowing_AfterInitialization(int precision, int scale, bool onlyPositive, string value)
         {
             Assert.Throws<ArgumentException>(() => new NumberValidator(precision, scale, onlyPositive));
