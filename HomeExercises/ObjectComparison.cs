@@ -13,12 +13,11 @@ namespace HomeExercises
             var actualTsar = TsarRegistry.GetCurrentTsar();
 
             var expectedTsar = new Person("Ivan IV The Terrible", 54, 170, 70,
-                new Person("Vasili III of Russia", 2, 170, 60, null));
+                new Person("Vasili III of Russia", 28, 170, 60, null));
 
             // Перепишите код на использование Fluent Assertions.
 
             actualTsar.Should().NotBeNull();
-            expectedTsar.Should().NotBeNull();
             actualTsar.ShouldBeEquivalentTo(expectedTsar, p => p
                 .Excluding(x => x.Id)
                 .Excluding(x => x.Parent.Id)
