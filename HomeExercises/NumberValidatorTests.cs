@@ -14,8 +14,8 @@ namespace HomeExercises
         [TestCase(5, 2, false, "-1,23", ExpectedResult = true, TestName = "NegativeWhenOnlyPositivIsFalse")]
         [TestCase(3, 2, false, "11.23", ExpectedResult = false, TestName = "FalseWhenValueMorePrecision")]
         [TestCase(4, 2, false, "0.123", ExpectedResult = false, TestName = "FalseWhenFracPartMoreScale")]
-        [TestCase(5, 2, false, "123,11", ExpectedResult = true, TestName = "CorrectSecaration1")]
-        [TestCase(5, 2, false, "123.11", ExpectedResult = true, TestName = "CorrectSecaration2")]
+        [TestCase(5, 2, false, "123,11", ExpectedResult = true, TestName = "CorrectSeparation1")]
+        [TestCase(5, 2, false, "123.11", ExpectedResult = true, TestName = "CorrectSeparation2")]
         public static bool ValidateNumber(int precision, int scale, bool onlyPositiv, string value)
         {
             return new NumberValidator(precision, scale, onlyPositiv).IsValidNumber(value);
